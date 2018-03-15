@@ -1,6 +1,5 @@
 package social.tests;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -25,13 +24,18 @@ import social.tests.pageobjects.PO_RegisterView;
 import social.tests.pageobjects.PO_View;
 import social.tests.utils.SeleniumUtils;
 
-//Ordenamos las pruebas por el nombre del método
+//Ordenamos las pruebas por el nombre del m�todo
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NotaneitorTests 
 {
+	/* PABLO */
 	static String PathFirefox = "C:\\Users\\PabloD\\Desktop\\SDI\\practicas\\p5\\Firefox46.win\\FirefoxPortable.exe";
+	
+	/* ANTONIO */
+	//static String PathFirefox = "C:\\Users\\XXX\\Desktop\\SDI\\practicas\\p5\\Firefox46.win\\FirefoxPortable.exe";
+	
 	static WebDriver driver = getDriver(PathFirefox);
-	static String URL = "http://localhost:8090";
+	static String URL = "http://localhost:9090";
 	
 	public static WebDriver getDriver(String PathFirefox) 
 	{
@@ -80,12 +84,39 @@ public class NotaneitorTests
 	}
 
 	
-	//PR01. Acceder a la página principal /
+	
+	/**
+	 * 1.1 [RegVal] Registro de Usuario con datos v�lidos
+	 */
 	@Test
-	public void PR01() 
+	public void RegVal() 
 	{
-		PO_HomeView.checkWelcome(driver, PO_Properties.getSPANISH());
+		// Nos vamos al registro (deber�a haber un id=registro)
+		PO_NavView.clickOption(driver, "registro", "id", "registro");
+		
+		// Rellenamos el formulario, y nos registramos.
+		PO_RegisterView.fillForm(driver, "Prueba", "Josefo@uniovi.es", "77777", "77777");
+		
+		// Comprobamos que entramos en el panel
+		PO_View.checkElement(driver, "text", "Panel");
 	}
+	
+	/**
+	 * 1.2 [RegInval] Registro de Usuario con datos inv�lidos (repetici�n de contrase�a invalida).
+	 */
+	@Test
+	public void RegInval() 
+	{
+		// Nos vamos al registro
+		PO_NavView.clickOption(driver, "registro", "id", "registro");
+		
+		// Rellenamos el formulario, y nos intentamos registrar (las contrase�as no coinciden).
+		PO_RegisterView.fillForm(driver, "Prueba2", "Josefo@uniovi.es", "77777", "66666");
+		
+		// Comprobamos que aparece el error de contrase�as no coinciden
+		PO_RegisterView.checkKey(driver, "Error.passNoCoincide", PO_Properties.getSPANISH() );
+	}
+	
 	
 	// PR02. OPción de navegación. Pinchar en el enlace Registro en la página home
 	@Test
@@ -115,7 +146,7 @@ public class NotaneitorTests
 		// Vamos al formulario de registro
 		PO_NavView.clickOption(driver, "signup", "class", "btn btn-primary");
 		// Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "77777778C", "Josefo", "Perez", "77777", "77777");
+		PO_RegisterView.fillForm(driver, "Prueba", "Josefo@uniovi.es", "77777", "77777");
 		// Comprobamos que entramos en la sección privada
 		PO_View.checkElement(driver, "text", "Notas del usuario");
 	}
@@ -131,8 +162,7 @@ public class NotaneitorTests
 		
 		/*	=========== DNI REPETIDO ========== */
 		//Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "99999990A", "Josefo", "Perez", "77777",
-		"77777");
+		PO_RegisterView.fillForm(driver, "Prueba", "Josefo@uniovi.es", "77777", "77777");
 		
 		//COmprobamos el error de DNI repetido.
 		PO_RegisterView.checkKey(driver, "Error.signup.dni.duplicate", PO_Properties.getSPANISH() );
@@ -140,8 +170,7 @@ public class NotaneitorTests
 		
 		/*	=========== NOMBRE CORTO ========== */
 		//Rellenamos el formulario.
-		PO_RegisterView.fillForm(driver, "99999990B", "Jose", "Perez", "77777",
-		"77777");
+		PO_RegisterView.fillForm(driver, "Prueba", "Josefo@uniovi.es", "77777", "77777");
 		
 		//COmprobamos el error de Nombre corto .
 		PO_RegisterView.checkKey(driver, "Error.signup.name.length",
@@ -151,8 +180,7 @@ public class NotaneitorTests
 		/*	=========== CONTRASEÑAS NO COINCIDEN (propuesto) ========== */
 		
 		//Rellenamos el formulario (ERROR -> contraseñas no coinciden).
-		PO_RegisterView.fillForm(driver, "99999990A", "Josefo", "Perez", "77777",
-		"66666");
+		PO_RegisterView.fillForm(driver, "Prueba", "Josefo@uniovi.es", "77777", "77777");
 		
 		//COmprobamos el error de contraseñas no coinciden.
 		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH() );

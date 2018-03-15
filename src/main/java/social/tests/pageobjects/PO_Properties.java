@@ -1,5 +1,6 @@
 package social.tests.pageobjects;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -21,12 +22,23 @@ public class PO_Properties {
 	{
 		PO_Properties.Path = Path;
 	}
+	
 	//
 	// locale is the index in idioms array.
 	//
     public String getString(String prop, int locale) {
 		
 		ResourceBundle bundle = ResourceBundle.getBundle(Path, idioms[locale]);
+		
+		String value = bundle.getString(prop);
+		String result;
+		try {
+			//Transformamos la cadena leída en formato ISO-8859-1 a UTF8
+			result = new String(value.getBytes("ISO-8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		return bundle.getString(prop);
 	}
 

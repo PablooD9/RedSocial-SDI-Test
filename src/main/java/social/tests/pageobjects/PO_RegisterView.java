@@ -6,32 +6,31 @@ import org.openqa.selenium.WebElement;
 
 public class PO_RegisterView extends PO_View
 {
-	static public void fillForm(WebDriver driver, String dnip, String namep, String lastnamep, String passwordp,
+	static public void fillForm(WebDriver driver, String usuariop, String emailp, String passp, 
 			String passwordconfp) 
 	{
-		WebElement dni = driver.findElement(By.name("dni"));
-		dni.click();
-		dni.clear(); // limpia el campo dni
-		dni.sendKeys(dnip); // copia "dnip" en el campo dni
-		WebElement name = driver.findElement(By.name("name"));
-		name.click();
-		name.clear();
-		name.sendKeys(namep);
-		WebElement lastname = driver.findElement(By.name("lastName"));
-		lastname.click();
-		lastname.clear();
-		lastname.sendKeys(lastnamep);
-		WebElement password = driver.findElement(By.name("password"));
-		password.click();
-		password.clear();
-		password.sendKeys(passwordp);
-		WebElement passwordConfirm = driver.findElement(By.name("passwordConfirm"));
-		passwordConfirm.click();
-		passwordConfirm.clear();
-		passwordConfirm.sendKeys(passwordconfp);
+		WebElement usuario = driver.findElement(By.id("usuario"));
+		usuario.click();
+		usuario.clear(); // limpia el campo usuario
+		usuario.sendKeys( usuariop ); // copia "usuariop" en el campo usuario
 		
-		// Pulsar el boton de Alta.
-		By boton = By.className("btn");
+		WebElement email = driver.findElement(By.id("email"));
+		email.click();
+		email.clear();
+		email.sendKeys( emailp );
+		
+		WebElement pass = driver.findElement(By.id("pass"));
+		pass.click();
+		pass.clear();
+		pass.sendKeys( passp );
+		
+		WebElement passconf = driver.findElement(By.id("rep_pass"));
+		passconf.click();
+		passconf.clear();
+		passconf.sendKeys( passwordconfp );
+		
+		// Pulsar el boton de Registro
+		By boton = By.id("registro");
 		driver.findElement(boton).click();
 	}
 }

@@ -19,20 +19,20 @@ public class PO_NavView extends PO_View
 	 *            "id" or "class" or "text" or "@attribute" or "free". Si el valor
 	 *            de criterio es free es una expresion xpath completa.
 	 * @param textoDestino:
-	 *            texto correspondiente a la b√∫squeda de la p√°gina destino.
+	 *            texto correspondiente a la b˙squeda (comprueba si se ha cargado la p·gina con Èxito)
 	 */
 	public static void clickOption(WebDriver driver, String textOption, String criterio, String textoDestino) 
 	{
-		// CLickamos en la opci√≥n de registro y esperamos a que se cargue el enlace de Registro.
+		// CLickamos en la opciÛn que queremos, y esperamos la carga
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", textOption,
 																						getTimeout());
-		// Tiene que haber un s√≥lo elemento.
+		// Tiene que haber un solo elemento.
 		assertTrue(elementos.size() == 1);
 		// Ahora lo clickamos
 		elementos.get(0).click();
 		// Esperamos a que sea visible un elemento concreto
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, criterio, textoDestino, getTimeout());
-		// Tiene que haber un s√≥lo elemento.
+		// Tiene que haber un solo elemento.
 		assertTrue(elementos.size() == 1);
 	}
 	
