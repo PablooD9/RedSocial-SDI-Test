@@ -17,7 +17,7 @@ public class PO_ListUsers extends PO_View
 		driver.findElement(boton).click();
 	}
 	
-	static public void enviarPeticion(WebDriver driver, String usuario)
+	static public void enviarAceptarPeticion(WebDriver driver, String usuario)
 	{
 		By boton = By.id( usuario );
 		driver.findElement(boton).click();

@@ -19,6 +19,7 @@ import social.tests.pageobjects.PO_HomeView;
 import social.tests.pageobjects.PO_ListUsers;
 import social.tests.pageobjects.PO_LoginView;
 import social.tests.pageobjects.PO_NavView;
+import social.tests.pageobjects.PO_PostView;
 import social.tests.pageobjects.PO_PrivateView;
 import social.tests.pageobjects.PO_Properties;
 import social.tests.pageobjects.PO_RegisterView;
@@ -224,7 +225,7 @@ public class RedSocialTests {
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
 		// Enviamos una invitación de amistad a Marta (Usuario = marta)
-		PO_ListUsers.enviarPeticion(driver, "marta");
+		PO_ListUsers.enviarAceptarPeticion(driver, "marta");
 
 		// Se comprueba que se ha enviado la petición de amistad a Marta (no hay botón
 		// de enviar)
@@ -246,7 +247,7 @@ public class RedSocialTests {
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
 		// Enviamos una invitación de amistad a Marta (Usuario = marta)
-		PO_ListUsers.enviarPeticion(driver, "marta");
+		PO_ListUsers.enviarAceptarPeticion(driver, "marta");
 
 		// Se comprueba que se ha enviado la petición de amistad a Marta (aparece el
 		// mensaje "Petición
@@ -271,6 +272,72 @@ public class RedSocialTests {
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 3);
+	}
+	
+	/**
+	 * 7.1 [AcepInvVal] Aceptar una invitación recibida.
+	 */
+	@Test
+	public void AcepInvVal() 
+	{
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con Lucas, porque tiene 3 peticiones de amistad pendientes
+		PO_LoginView.fillForm(driver, "lucas", "123456");
+		
+		// Se despliega el menú de usuarios, y se clica en Ver peticiones de amistad
+		PO_NavView.desplegarUsuarios(driver, "Ver peticiones de amistad");
+		
+		// Se comprueba que Lucas tiene 3 peticiones de amistad
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 3);			
+		
+		// Se acepta la petición del usuario "edward"
+		PO_ListUsers.enviarAceptarPeticion(driver, "edward");
+		
+		// Se comprueba que ahora que se ha aceptado una petición, hay dos pendientes
+		usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 2);
+	}
+
+	/**
+	 * 8.1 [ListAmiVal] Listar los amigos de un usuario, realizar la comprobación con una lista que al menos tenga un amigo.
+	 */
+	@Test
+	public void ListAmiVal() 
+	{
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con Lucas, que tiene varios amigos
+		PO_LoginView.fillForm(driver, "lucas", "123456");
+		
+		// Se despliega el menú de usuarios, y se clica en Mis amigos
+		PO_NavView.desplegarUsuarios(driver, "Mis amigos");
+		
+		// Se comprueba que Lucas tiene 2 amigos
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 2);
+	}
+	
+	/**
+	 * 9.1 [PubVal] Crear una publicación con datos válidos. 
+	 */
+	@Test
+	public void PubVal() 
+	{
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con Lucas, que tiene varios amigos
+		PO_LoginView.fillForm(driver, "lucas", "123456");
+		
+		// Se despliega el menú de post, y pulsamos en "Crear post"
+		PO_NavView.desplegarPost(driver, "Crear post");
+		
+		// Rellenamos la creación del post, y lo creamos
+		PO_PostView.crearPost(driver, "Prueba de nuevo post", "Descripción de nuevo post");
+		
+		// Se comprueba que se ha creado el post anterior
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba de nuevo post", PO_View.getTimeout());
 	}
 
 	/**
