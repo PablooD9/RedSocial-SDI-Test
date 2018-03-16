@@ -16,6 +16,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import social.tests.pageobjects.PO_HomeView;
+import social.tests.pageobjects.PO_ListUsers;
 import social.tests.pageobjects.PO_LoginView;
 import social.tests.pageobjects.PO_NavView;
 import social.tests.pageobjects.PO_PrivateView;
@@ -115,6 +116,165 @@ public class NotaneitorTests
 		
 		// Comprobamos que aparece el error de contraseñas no coinciden
 		PO_RegisterView.checkKey(driver, "Error.passNoCoincide", PO_Properties.getSPANISH() );
+	}
+	
+	/**
+	 * 2.1 [InVal] Inicio de sesión con datos válidos.
+	 */
+	@Test
+	public void InVal() 
+	{
+		// Se intenta ir a la dirección para listar usuarios (no dejará, puedes debemos loguearnos)
+//		driver.navigate().to( "http://localhost:9090/users/lista-usuarios" );
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Comprobamos que aparece el mensaje "Lista de usuarios"
+//		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios", PO_Properties.getSPANISH() );
+		PO_RegisterView.checkKey(driver, "Panel.panel", PO_Properties.getSPANISH() );
+	}
+	
+	/**
+	 * 2.2 [InInVal] Inicio de sesión con datos inválidos (usuario no existente en la aplicación).
+	 */
+	@Test
+	public void InInVal() 
+	{	
+		// Rellenamos el formulario de login con datos INVÁLIDOS
+		PO_LoginView.fillForm(driver, "mariaB", "123456");
+		
+		// Comprobamos que aparece el mensaje de error 
+		// "Username o password incorrectos o el usuario no tiene privilegios suficientes"
+		PO_RegisterView.checkKey(driver, "Error.falloLogin", PO_Properties.getSPANISH() );
+	}
+	
+	/**
+	 * 3.1 [LisUsrVal] Acceso al listado de usuarios desde un usuario en sesión.
+	 */
+	@Test
+	public void LisUsrVal() 
+	{	
+		// Rellenamos el formulario de login con datos válidos
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
+		
+		// Comprobamos que aparece el mensaje "Lista de usuarios"
+		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios", PO_Properties.getSPANISH() );
+	}
+	
+	/**
+	 * 3.2 [LisUsrInVal] Intento de acceso con URL desde un usuario no identificado
+	 *  al listado de usuarios desde un usuario en sesión. 
+	 *  Debe producirse un acceso no permitido a vistas privadas.
+	 */
+	@Test
+	public void LisUsrInVal() 
+	{	
+		// Se intenta ir, sin estar identificado, a la dirección de lista de usuarios.
+		// No se permite acceder a dicha dirección. Se redirecciona al login de usuarios.
+		driver.navigate().to( "http://localhost:9090/users/lista-usuarios" );
+				
+		// Comprobamos que aparece el mensaje "Login"
+		PO_RegisterView.checkKey(driver, "Login.titulo", PO_Properties.getSPANISH() );
+	}
+	
+	/**
+	 * 4.1 [BusUsrVal] Realizar una búsqueda valida en el listado de usuarios desde un usuario en sesión
+	 */
+	@Test
+	public void BusUsrVal() 
+	{	
+		// Rellenamos el formulario de login con datos válidos
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
+		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
+		
+		// Buscamos a Pedro
+		PO_ListUsers.buscarUsuario(driver, "Pedro");
+		
+		// Se comprueba (mediante el Email) que solo hay un usuario encontrado (Pedro)
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 1);		
+	}
+	
+	/**
+	 * 4.2 [BusUsrInVal] Intento de acceso con URL a la búsqueda de usuarios desde un usuario no
+	 * identificado. Debe producirse un acceso no permitido a vistas privadas.
+	 */
+	@Test
+	public void BusUsrInVal() 
+	{	
+		// Se intenta ir, sin estar identificado, a la dirección de lista de usuarios, y buscar a Pedro.
+		// No se permite acceder a dicha dirección. Se redirecciona al login de usuarios.
+		driver.navigate().to( "http://localhost:9090/users/lista-usuarios?searchText=Pedro" );
+				
+		// Comprobamos que aparece el mensaje "Login"
+		PO_RegisterView.checkKey(driver, "Login.titulo", PO_Properties.getSPANISH() );	
+	}
+	
+	/**
+	 * 5.1 [InvVal] Enviar una invitación de amistad a un usuario de forma valida
+	 */
+	@Test
+	public void InvVal() 
+	{	
+		// Rellenamos el formulario de login con datos válidos
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
+		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
+		
+		// Enviamos una invitación de amistad a Marta (Usuario = marta)
+		PO_ListUsers.enviarPeticion(driver, "marta");
+
+		// Se comprueba que se ha enviado la petición de amistad a Marta (no hay botón de enviar)
+		SeleniumUtils.EsperaCargaPaginaNoId(driver, "marta", PO_View.getTimeout() );	
+	}
+	
+	/**
+	 * 5.2 [InvInVal] Enviar una invitación de amistad a un usuario al que ya le habíamos invitado la invitación
+	 * previamente. No debería dejarnos enviar la invitación, se podría ocultar el botón de enviar invitación o
+	 * notificar que ya había sido enviada previamente.
+	 */
+	@Test
+	public void InvInVal() 
+	{	
+		// Rellenamos el formulario de login con datos válidos
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
+		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
+		
+		// Enviamos una invitación de amistad a Marta (Usuario = marta)
+		PO_ListUsers.enviarPeticion(driver, "marta");
+
+		// Se comprueba que se ha enviado la petición de amistad a Marta (aparece el mensaje "Petición
+		// de amistad enviada", con ID=enviada_marta
+		SeleniumUtils.EsperaCargaPaginaConId(driver, "enviada_marta", PO_View.getTimeout() );	
+	}
+	
+	/**
+	 * 6.1 [LisInvVal] Listar las invitaciones recibidas por un usuario, realizar la comprobación con una lista
+	 * que al menos tenga una invitación recibida.
+	 */
+	@Test
+	public void LisInvVal() 
+	{	
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con Lucas, porque tiene 3 peticiones de amistad pendientes
+		PO_LoginView.fillForm(driver, "lucas", "123456");
+		
+		// Se despliega el menú de usuarios, y se clica en Ver peticiones de amistad
+		PO_NavView.desplegarUsuarios(driver, "Ver peticiones de amistad");
+		
+		// Se comprueba que Lucas tiene 3 peticiones de amistad
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 3);			
 	}
 	
 	

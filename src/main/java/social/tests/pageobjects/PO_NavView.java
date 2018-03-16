@@ -61,6 +61,37 @@ public class PO_NavView extends PO_View
 	}
 	
 	
+	public static void desplegarPost(WebDriver driver, String textoOpcion) 
+	{
+		// clickamos la opción de Mis post
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "posts", getTimeout());
+		elementos.get(0).click();
+		
+		// Esperamos a que aparezca el menú
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "desplieguePosts", getTimeout());
+		// SeleniumUtils.esperarSegundos(driver, 2);
+		
+		// CLickamos la opción textoOpcion
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", textoOpcion, getTimeout());
+		elementos.get(0).click();
+	}
+	
+
+	public static void desplegarUsuarios(WebDriver driver, String textoOpcion) 
+	{
+		// clickamos la opción de Usuarios
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "usuarios", getTimeout());
+		elementos.get(0).click();
+		
+		// Esperamos a que aparezca el menú
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "despliegueUsuarios", getTimeout());
+		// SeleniumUtils.esperarSegundos(driver, 2);
+		
+		// CLickamos la opción textoOpcion
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", textoOpcion, getTimeout());
+		elementos.get(0).click();
+	}
+	
 	public static void desplegarNotas(WebDriver driver, String textoOpcion) 
 	{
 		// clickamos la opciÃ³n GestiÃ³n de notas.

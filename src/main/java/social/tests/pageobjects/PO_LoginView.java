@@ -7,19 +7,19 @@ import org.openqa.selenium.WebElement;
 public class PO_LoginView extends PO_View
 {
 	
-	static public void fillForm(WebDriver driver, String dnip, String passwordp) 
+	static public void fillForm(WebDriver driver, String usuariop, String passwordp) 
 	{
-		WebElement dni = driver.findElement(By.name("username"));
-		dni.click();
-		dni.clear(); // limpia el campo dni
-		dni.sendKeys(dnip); // copia "dnip" en el campo dni
+		WebElement usuario = driver.findElement(By.name("username"));
+		usuario.click();
+		usuario.clear(); // limpia el campo usuario
+		usuario.sendKeys( usuariop ); // copia "usuariop" en el campo usuario
 		
 		WebElement password = driver.findElement(By.name("password"));
 		password.click();
 		password.clear();
-		password.sendKeys(passwordp);
+		password.sendKeys( passwordp );
 		
-		// Pulsar el boton de Alta.
+		// Pulsar el boton de Login.
 		By boton = By.className("btn");
 		driver.findElement(boton).click();
 	}
