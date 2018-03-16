@@ -22,4 +22,9 @@ public class PO_ListUsers extends PO_View
 		By boton = By.id( usuario );
 		driver.findElement(boton).click();
 	}
+	
+	static public void borrarUsuario(WebDriver driver, String usuario) {
+		By boton = By.id( usuario );
+		driver.findElement(boton).click();
+	}
 }
