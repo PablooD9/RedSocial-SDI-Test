@@ -26,7 +26,7 @@ import social.tests.pageobjects.PO_RegisterView;
 import social.tests.pageobjects.PO_View;
 import social.tests.utils.SeleniumUtils;
 
-//Ordenamos las pruebas por el nombre del mÈtodo
+//Ordenamos las pruebas por el nombre del m√©todo
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RedSocialTests {
 	/* PABLO */
@@ -45,13 +45,13 @@ public class RedSocialTests {
 		return driver;
 	}
 
-	// Antes de cada prueba se navega al URL home de la aplicaci√≥nn
+	// Antes de cada prueba se navega al URL home de la aplicaci√É¬≥nn
 	@Before
 	public void setUp() {
 		driver.navigate().to(URL);
 	}
 
-	// Despu√©s de cada prueba se borran las cookies del navegador
+	// Despu√É¬©s de cada prueba se borran las cookies del navegador
 	@After
 	public void tearDown() {
 		driver.manage().deleteAllCookies();
@@ -75,18 +75,18 @@ public class RedSocialTests {
 		// element.get(0).click();
 	}
 
-	@AfterClass // Al finalizar la √∫ltima prueba
+	@AfterClass // Al finalizar la √É¬∫ltima prueba
 	static public void end() {
 		// Cerramos el navegador al finalizar las pruebas
 		driver.quit();
 	}
 
 	/**
-	 * 1.1 [RegVal] Registro de Usuario con datos v·lidos
+	 * 1.1 [RegVal] Registro de Usuario con datos v√°lidos
 	 */
 	@Test
 	public void RegVal() {
-		// Nos vamos al registro (deberÌa haber un id=registro)
+		// Nos vamos al registro (deber√≠a haber un id=registro)
 		PO_NavView.clickOption(driver, "registro", "id", "registro");
 
 		// Rellenamos el formulario, y nos registramos.
@@ -97,32 +97,32 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 1.2 [RegInval] Registro de Usuario con datos inv·lidos (repeticiÛn de
-	 * contraseÒa invalida).
+	 * 1.2 [RegInval] Registro de Usuario con datos inv√°lidos (repetici√≥n de
+	 * contrase√±a invalida).
 	 */
 	@Test
 	public void RegInval() {
 		// Nos vamos al registro
 		PO_NavView.clickOption(driver, "registro", "id", "registro");
 
-		// Rellenamos el formulario, y nos intentamos registrar (las contraseÒas no
+		// Rellenamos el formulario, y nos intentamos registrar (las contrase√±as no
 		// coinciden).
 		PO_RegisterView.fillForm(driver, "Prueba2", "Josefo@uniovi.es", "77777", "66666");
 
-		// Comprobamos que aparece el error de contraseÒas no coinciden
+		// Comprobamos que aparece el error de contrase√±as no coinciden
 		PO_RegisterView.checkKey(driver, "Error.passNoCoincide", PO_Properties.getSPANISH());
 	}
 
 	/**
-	 * 2.1 [InVal] Inicio de sesiÛn con datos v·lidos.
+	 * 2.1 [InVal] Inicio de sesi√≥n con datos v√°lidos.
 	 */
 	@Test
 	public void InVal() {
-		// Se intenta ir a la direcciÛn para listar usuarios (no dejar·, puedes debemos
+		// Se intenta ir a la direcci√≥n para listar usuarios (no dejar√°, puedes debemos
 		// loguearnos)
 		// driver.navigate().to( "http://localhost:9090/users/lista-usuarios" );
 
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
@@ -132,12 +132,12 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 2.2 [InInVal] Inicio de sesiÛn con datos inv·lidos (usuario no existente en
-	 * la aplicaciÛn).
+	 * 2.2 [InInVal] Inicio de sesi√≥n con datos inv√°lidos (usuario no existente en
+	 * la aplicaci√≥n).
 	 */
 	@Test
 	public void InInVal() {
-		// Rellenamos el formulario de login con datos INV¡LIDOS
+		// Rellenamos el formulario de login con datos INV√ÅLIDOS
 		PO_LoginView.fillForm(driver, "mariaB", "123456");
 
 		// Comprobamos que aparece el mensaje de error
@@ -147,11 +147,11 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 3.1 [LisUsrVal] Acceso al listado de usuarios desde un usuario en sesiÛn.
+	 * 3.1 [LisUsrVal] Acceso al listado de usuarios desde un usuario en sesi√≥n.
 	 */
 	@Test
 	public void LisUsrVal() {
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
@@ -162,13 +162,13 @@ public class RedSocialTests {
 
 	/**
 	 * 3.2 [LisUsrInVal] Intento de acceso con URL desde un usuario no identificado
-	 * al listado de usuarios desde un usuario en sesiÛn. Debe producirse un acceso
+	 * al listado de usuarios desde un usuario en sesi√≥n. Debe producirse un acceso
 	 * no permitido a vistas privadas.
 	 */
 	@Test
 	public void LisUsrInVal() {
-		// Se intenta ir, sin estar identificado, a la direcciÛn de lista de usuarios.
-		// No se permite acceder a dicha direcciÛn. Se redirecciona al login de
+		// Se intenta ir, sin estar identificado, a la direcci√≥n de lista de usuarios.
+		// No se permite acceder a dicha direcci√≥n. Se redirecciona al login de
 		// usuarios.
 		driver.navigate().to("http://localhost:9090/users/lista-usuarios");
 
@@ -177,15 +177,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 4.1 [BusUsrVal] Realizar una b˙squeda valida en el listado de usuarios desde
-	 * un usuario en sesiÛn
+	 * 4.1 [BusUsrVal] Realizar una b√∫squeda valida en el listado de usuarios desde
+	 * un usuario en sesi√≥n
 	 */
 	@Test
 	public void BusUsrVal() {
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
-		// Se despliega el men˙ de usuarios, y se clica en Todos los usuarios
+		// Se despliega el men√∫ de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
 		// Buscamos a Pedro
@@ -197,15 +197,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 4.2 [BusUsrInVal] Intento de acceso con URL a la b˙squeda de usuarios desde
+	 * 4.2 [BusUsrInVal] Intento de acceso con URL a la b√∫squeda de usuarios desde
 	 * un usuario no identificado. Debe producirse un acceso no permitido a vistas
 	 * privadas.
 	 */
 	@Test
 	public void BusUsrInVal() {
-		// Se intenta ir, sin estar identificado, a la direcciÛn de lista de usuarios, y
+		// Se intenta ir, sin estar identificado, a la direcci√≥n de lista de usuarios, y
 		// buscar a Pedro.
-		// No se permite acceder a dicha direcciÛn. Se redirecciona al login de
+		// No se permite acceder a dicha direcci√≥n. Se redirecciona al login de
 		// usuarios.
 		driver.navigate().to("http://localhost:9090/users/lista-usuarios?searchText=Pedro");
 
@@ -214,104 +214,104 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 5.1 [InvVal] Enviar una invitaciÛn de amistad a un usuario de forma valida
+	 * 5.1 [InvVal] Enviar una invitaci√≥n de amistad a un usuario de forma valida
 	 */
 	@Test
 	public void InvVal() {
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
-		// Se despliega el men˙ de usuarios, y se clica en Todos los usuarios
+		// Se despliega el men√∫ de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
-		// Enviamos una invitaciÛn de amistad a Marta (Usuario = marta)
+		// Enviamos una invitaci√≥n de amistad a Marta (Usuario = marta)
 		PO_ListUsers.enviarAceptarPeticion(driver, "marta");
 
-		// Se comprueba que se ha enviado la peticiÛn de amistad a Marta (no hay botÛn
+		// Se comprueba que se ha enviado la petici√≥n de amistad a Marta (no hay bot√≥n
 		// de enviar)
 		SeleniumUtils.EsperaCargaPaginaNoId(driver, "marta", PO_View.getTimeout());
 	}
 
 	/**
-	 * 5.2 [InvInVal] Enviar una invitaciÛn de amistad a un usuario al que ya le
-	 * habÌamos invitado la invitaciÛn previamente. No deberÌa dejarnos enviar la
-	 * invitaciÛn, se podrÌa ocultar el botÛn de enviar invitaciÛn o notificar que
-	 * ya habÌa sido enviada previamente.
+	 * 5.2 [InvInVal] Enviar una invitaci√≥n de amistad a un usuario al que ya le
+	 * hab√≠amos invitado la invitaci√≥n previamente. No deber√≠a dejarnos enviar la
+	 * invitaci√≥n, se podr√≠a ocultar el bot√≥n de enviar invitaci√≥n o notificar que
+	 * ya hab√≠a sido enviada previamente.
 	 */
 	@Test
 	public void InvInVal() {
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
-		// Se despliega el men˙ de usuarios, y se clica en Todos los usuarios
+		// Se despliega el men√∫ de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
-		// Enviamos una invitaciÛn de amistad a Marta (Usuario = marta)
+		// Enviamos una invitaci√≥n de amistad a Marta (Usuario = marta)
 		PO_ListUsers.enviarAceptarPeticion(driver, "marta");
 
-		// Se comprueba que se ha enviado la peticiÛn de amistad a Marta (aparece el
-		// mensaje "PeticiÛn
+		// Se comprueba que se ha enviado la petici√≥n de amistad a Marta (aparece el
+		// mensaje "Petici√≥n
 		// de amistad enviada", con ID=enviada_marta
 		SeleniumUtils.EsperaCargaPaginaConId(driver, "enviada_marta", PO_View.getTimeout());
 	}
 
 	/**
 	 * 6.1 [LisInvVal] Listar las invitaciones recibidas por un usuario, realizar la
-	 * comprobaciÛn con una lista que al menos tenga una invitaciÛn recibida.
+	 * comprobaci√≥n con una lista que al menos tenga una invitaci√≥n recibida.
 	 */
 	@Test
 	public void LisInvVal() {
-		// Rellenamos el formulario de login con datos v·lidos
-		// Inicio sesiÛn con Lucas, porque tiene 3 peticiones de amistad pendientes
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con Lucas, porque tiene 3 peticiones de amistad pendientes
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 
-		// Se despliega el men˙ de usuarios, y se clica en Ver peticiones de amistad
+		// Se despliega el men√∫ de usuarios, y se clica en Ver peticiones de amistad
 		PO_NavView.desplegarUsuarios(driver, "Ver peticiones de amistad");
 
 		// Se comprueba que Lucas tiene 3 peticiones de amistad
-		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar peticiÛn",
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petici√≥n",
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 3);
 	}
 	
 	/**
-	 * 7.1 [AcepInvVal] Aceptar una invitaciÛn recibida.
+	 * 7.1 [AcepInvVal] Aceptar una invitaci√≥n recibida.
 	 */
 	@Test
 	public void AcepInvVal() 
 	{
-		// Rellenamos el formulario de login con datos v·lidos
-		// Inicio sesiÛn con Lucas, porque tiene 3 peticiones de amistad pendientes
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con Lucas, porque tiene 3 peticiones de amistad pendientes
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
-		// Se despliega el men˙ de usuarios, y se clica en Ver peticiones de amistad
+		// Se despliega el men√∫ de usuarios, y se clica en Ver peticiones de amistad
 		PO_NavView.desplegarUsuarios(driver, "Ver peticiones de amistad");
 		
 		// Se comprueba que Lucas tiene 3 peticiones de amistad
-		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar peticiÛn",
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petici√≥n",
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 3);			
 		
-		// Se acepta la peticiÛn del usuario "edward"
+		// Se acepta la petici√≥n del usuario "edward"
 		PO_ListUsers.enviarAceptarPeticion(driver, "edward");
 		
-		// Se comprueba que ahora que se ha aceptado una peticiÛn, hay dos pendientes
-		usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar peticiÛn",
+		// Se comprueba que ahora que se ha aceptado una petici√≥n, hay dos pendientes
+		usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petici√≥n",
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 2);
 	}
 
 	/**
-	 * 8.1 [ListAmiVal] Listar los amigos de un usuario, realizar la comprobaciÛn con una lista que al menos tenga un amigo.
+	 * 8.1 [ListAmiVal] Listar los amigos de un usuario, realizar la comprobaci√≥n con una lista que al menos tenga un amigo.
 	 */
 	@Test
 	public void ListAmiVal() 
 	{
-		// Rellenamos el formulario de login con datos v·lidos
-		// Inicio sesiÛn con Lucas, que tiene varios amigos
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con Lucas, que tiene varios amigos
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
-		// Se despliega el men˙ de usuarios, y se clica en Mis amigos
+		// Se despliega el men√∫ de usuarios, y se clica en Mis amigos
 		PO_NavView.desplegarUsuarios(driver, "Mis amigos");
 		
 		// Se comprueba que Lucas tiene 2 amigos
@@ -321,34 +321,133 @@ public class RedSocialTests {
 	}
 	
 	/**
-	 * 9.1 [PubVal] Crear una publicaciÛn con datos v·lidos. 
+	 * 9.1 [PubVal] Crear una publicaci√≥n con datos v√°lidos. 
 	 */
 	@Test
 	public void PubVal() 
 	{
-		// Rellenamos el formulario de login con datos v·lidos
-		// Inicio sesiÛn con Lucas, que tiene varios amigos
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con Lucas, que tiene varios amigos
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
-		// Se despliega el men˙ de post, y pulsamos en "Crear post"
+		// Se despliega el men√∫ de post, y pulsamos en "Crear post"
 		PO_NavView.desplegarPost(driver, "Crear post");
 		
-		// Rellenamos la creaciÛn del post, y lo creamos
-		PO_PostView.crearPost(driver, "Prueba de nuevo post", "DescripciÛn de nuevo post");
+		// Rellenamos la creaci√≥n del post, y lo creamos
+		PO_PostView.crearPost(driver, "Prueba de nuevo post", "Descripci√≥n de nuevo post");
+		
+		// Se comprueba que se ha creado el post anterior
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba de nuevo post", PO_View.getTimeout());
+	}
+	
+	/**
+	 * 10.1 [LisPubVal] Acceso al listado de publicaciones desde un usuario en sesi√≥n
+	 */
+	@Test
+	public void LisPubVal() 
+	{
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con Lucas
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Se despliega el men√∫ de post, y pulsamos en "Listar mis post"
+		PO_NavView.desplegarPost(driver, "Listar mis post");
+		
+		// Se comprueba que se visualiza correctamente el post de Mar√≠a (solo tiene uno), busc√°ndolo
+		// por su t√≠tulo (Publicacion de prueba)
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Publicacion de prueba", PO_View.getTimeout());
+	}
+	
+	/**
+	 * 11.1 [LisPubAmiVal] Listar las publicaciones de un usuario amigo
+	 */
+	@Test
+	public void LisPubAmiVal() 
+	{
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con mar√≠a
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Se despliega el men√∫ de Usuarios -> Mis amigos
+		PO_NavView.desplegarUsuarios(driver, "Mis amigos");
+		
+		// Vamos al perfil de Lucas
+		PO_NavView.clickOption(driver, "perfil/lucas", "text", "Publicaciones");
+		
+		// Listamos sus publicaciones (tiene 3)
+		List<WebElement> publicaciones = SeleniumUtils.EsperaCargaPagina(driver, "class", "post-media",
+				PO_View.getTimeout());
+		Assert.assertTrue(publicaciones.size() == 3);
+	}
+	
+	/**
+	 * 11.2 [LisPubAmiInVal] Utilizando un acceso v√≠a URL tratar de listar las publicaciones de un usuario que
+	 * no sea amigo del usuario identificado en sesi√≥n.
+	 */
+	@Test
+	public void LisPubAmiInVal() 
+	{
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con mar√≠a
+		PO_LoginView.fillForm(driver, "maria", "123456");
+		
+		// Vamos al perfil de Marta (NO ES AMIGA DE MAR√çA, por lo tanto no se ver√°n sus publicaciones).
+		// Marta tiene creada una publicaci√≥n (t√≠tulo = Drop tables)
+		driver.navigate().to( "http://localhost:9090/users/perfil/marta" );
+
+		// Vemos que no tiene ninguna publicaci√≥n
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Drop tables", PO_View.getTimeout());
+	}
+	
+	/**
+	 * 12.1 [PubFot1Val] Crear una publicaci√≥n con datos v√°lidos y una foto adjunta. 
+	 */
+	@Test
+	public void PubFot1Val() 
+	{
+		// Rellenamos el formulario de login con datos v√°lidos
+		// Inicio sesi√≥n con Lucas, que tiene varios amigos
+		PO_LoginView.fillForm(driver, "lucas", "123456");
+		
+		// Se despliega el men√∫ de post, y pulsamos en "Crear post"
+		PO_NavView.desplegarPost(driver, "Crear post");
+		
+		// Rellenamos la creaci√≥n del post, y lo creamos
+		PO_PostView.crearPost(driver, "Prueba de nuevo post", "Descripci√≥n de nuevo post");
+		
+		// Se comprueba que se ha creado el post anterior
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba de nuevo post", PO_View.getTimeout());
+	}
+	
+	/**
+	 * 12.1 [PubFot2Val] Crear una publicaci√≥n con datos v√°lidos y sin una foto adjunta.
+	 */
+	@Test
+	public void PubFot2Val() 
+	{
+		// Rellenamos el formulario de login con datos v√°lidos 
+		// Inicio sesi√≥n con Lucas, que tiene varios  amigos
+		PO_LoginView.fillForm(driver, "lucas", "123456");
+		
+		// Se despliega el men√∫ de post, y pulsamos en "Crear post"
+		PO_NavView.desplegarPost(driver, "Crear post");
+		
+		// Rellenamos la creaci√≥n del post, y lo creamos
+		PO_PostView.crearPost(driver, "Prueba de nuevo post", "Descripci√≥n de nuevo post");
 		
 		// Se comprueba que se ha creado el post anterior
 		SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba de nuevo post", PO_View.getTimeout());
 	}
 
 	/**
-	 * 13.1 [AdInVal] Inicio de sesiÛn como administrador con datos v·lidos.
+	 * 13.1 [AdInVal] Inicio de sesi√≥n como administrador con datos v√°lidos.
 	 */
 	@Test
 	public void AdInVal() {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
@@ -356,7 +455,7 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 13.2 [AdInInVal] Inicio de sesiÛn como administrador con datos inv·lidos
+	 * 13.2 [AdInInVal] Inicio de sesi√≥n como administrador con datos inv√°lidos
 	 * (usar los datos de un usuario que no tenga perfil administrador).
 	 */
 	@Test
@@ -364,7 +463,7 @@ public class RedSocialTests {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos INV¡LIDOS, usuario existente
+		// Rellenamos el formulario de login con datos INV√ÅLIDOS, usuario existente
 		// pero sin privilegios
 		PO_LoginView.fillForm(driver, "pedro", "123456");
 
@@ -375,7 +474,7 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 13.3 [AdInInVal2] Inicio de sesiÛn como administrador con datos inv·lidos
+	 * 13.3 [AdInInVal2] Inicio de sesi√≥n como administrador con datos inv√°lidos
 	 * (usuario no existente).
 	 */
 	@Test
@@ -383,7 +482,7 @@ public class RedSocialTests {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos INV¡LIDOS, usuario no existente
+		// Rellenamos el formulario de login con datos INV√ÅLIDOS, usuario no existente
 		PO_LoginView.fillForm(driver, "pedro3", "123456");
 
 		// Comprobamos que aparece el mensaje de error
@@ -393,15 +492,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 14.1 [AdLisUsrVal] Desde un usuario identificado en sesiÛn como administrador
-	 * listar a todos los usuarios de la aplicaciÛn.
+	 * 14.1 [AdLisUsrVal] Desde un usuario identificado en sesi√≥n como administrador
+	 * listar a todos los usuarios de la aplicaci√≥n.
 	 */
 	@Test
 	public void AdLisUsrVal() {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
@@ -409,15 +508,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 15.1 [AdBorUsrVal] Desde un usuario identificado en sesiÛn como administrador
-	 * eliminar un usuario existente en la aplicaciÛn.
+	 * 15.1 [AdBorUsrVal] Desde un usuario identificado en sesi√≥n como administrador
+	 * eliminar un usuario existente en la aplicaci√≥n.
 	 */
 	@Test
 	public void AdBorUsrVal() {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email", PO_View.getTimeout());
@@ -431,14 +530,14 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 15.2 [AdBorUsrInVal] Intento de acceso vÌa URL al borrado de un usuario
-	 * existente en la aplicaciÛn. Debe utilizarse un usuario identificado en sesiÛn
+	 * 15.2 [AdBorUsrInVal] Intento de acceso v√≠a URL al borrado de un usuario
+	 * existente en la aplicaci√≥n. Debe utilizarse un usuario identificado en sesi√≥n
 	 * pero que no tenga perfil de administrador.
 	 */
 	@Test
 	public void AdBorUsrInVal() {
 
-		// Rellenamos el formulario de login con datos v·lidos
+		// Rellenamos el formulario de login con datos v√°lidos
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
 		//Intentamos borrar un usuario sin ser administradores
