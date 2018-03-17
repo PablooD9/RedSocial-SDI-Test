@@ -113,10 +113,9 @@ public class SeleniumUtils {
 	
 	static public void EsperaCargaPaginaNoId(WebDriver driver, String id, int tiempo)
 	{
-		Boolean resultado = 
-				(new WebDriverWait(driver, tiempo)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@id,'" + id + "')]")));
-
-		assertTrue(resultado);
+		List<WebElement> list = driver.findElements(By.xpath("//*[contains(@id,'" + id + "')]"));	
+		
+		assertTrue("Texto " + id + " aun presente !", list.size() == 0);
 	}
 	
 	static public void EsperaCargaPaginaConId(WebDriver driver, String id, int tiempo)
