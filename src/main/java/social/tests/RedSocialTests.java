@@ -10,31 +10,28 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-import social.tests.pageobjects.PO_HomeView;
 import social.tests.pageobjects.PO_ListUsers;
 import social.tests.pageobjects.PO_LoginView;
 import social.tests.pageobjects.PO_NavView;
 import social.tests.pageobjects.PO_PostView;
-import social.tests.pageobjects.PO_PrivateView;
 import social.tests.pageobjects.PO_Properties;
 import social.tests.pageobjects.PO_RegisterView;
 import social.tests.pageobjects.PO_View;
 import social.tests.utils.SeleniumUtils;
 
-//Ordenamos las pruebas por el nombre del mÃ©todo
+//Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RedSocialTests {
 	/* PABLO */
-	 static String PathFirefox =
-	 "C:\\Users\\PabloD\\Desktop\\SDI\\practicas\\p5\\Firefox46.win\\FirefoxPortable.exe";
+//	 static String PathFirefox =
+//	 "C:\\Users\\PabloD\\Desktop\\SDI\\practicas\\p5\\Firefox46.win\\FirefoxPortable.exe";
 
 	/* ANTONIO */
-//	static String PathFirefox = "D:\\UNIOVI\\Tercero\\Segundo Semestre\\SDI\\Practicas\\recursos\\Firefox46.win\\FirefoxPortable.exe";
+	static String PathFirefox = "D:\\UNIOVI\\Tercero\\Segundo Semestre\\SDI\\Practicas\\recursos\\Firefox46.win\\FirefoxPortable.exe";
 
 	static WebDriver driver = getDriver(PathFirefox);
 	static String URL = "http://localhost:9090";
@@ -45,13 +42,13 @@ public class RedSocialTests {
 		return driver;
 	}
 
-	// Antes de cada prueba se navega al URL home de la aplicaciÃƒÂ³nn
+	// Antes de cada prueba se navega al URL home de la aplicación
 	@Before
 	public void setUp() {
 		driver.navigate().to(URL);
 	}
 
-	// DespuÃƒÂ©s de cada prueba se borran las cookies del navegador
+	// Después de cada prueba se borran las cookies del navegador
 	@After
 	public void tearDown() {
 		driver.manage().deleteAllCookies();
@@ -60,33 +57,21 @@ public class RedSocialTests {
 	// Antes de la primera prueba
 	@BeforeClass
 	static public void begin() {
-		// // Vamos al formulario de logueo.
-		// PO_NavView.clickOption(driver, "login", "class", "btn btn-primary");
-		//
-		// // Rellenamos el formulario
-		// PO_LoginView.fillForm(driver, "99999988F", "123456");
-		//
-		// // Comprobamos que entramos en la pagina privada de un Administrador
-		// List<WebElement> element = SeleniumUtils.EsperaCargaPagina(driver, "@href",
-		// "restoreDB", 2);
-		// element.get(0).click();
-		//
-		// element = SeleniumUtils.EsperaCargaPagina(driver, "@href", "logout", 2);
-		// element.get(0).click();
+
 	}
 
-	@AfterClass // Al finalizar la ÃƒÂºltima prueba
+	@AfterClass // Al finalizar la última prueba
 	static public void end() {
 		// Cerramos el navegador al finalizar las pruebas
 		driver.quit();
 	}
 
 	/**
-	 * 1.1 [RegVal] Registro de Usuario con datos vÃ¡lidos
+	 * 1.1 [RegVal] Registro de Usuario con datos válidos
 	 */
 	@Test
 	public void RegVal() {
-		// Nos vamos al registro (deberÃ­a haber un id=registro)
+		// Nos vamos al registro (debería haber un id=registro)
 		PO_NavView.clickOption(driver, "registro", "id", "registro");
 
 		// Rellenamos el formulario, y nos registramos.
@@ -97,32 +82,32 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 1.2 [RegInval] Registro de Usuario con datos invÃ¡lidos (repeticiÃ³n de
-	 * contraseÃ±a invalida).
+	 * 1.2 [RegInval] Registro de Usuario con datos inválidos (repetición de
+	 * contraseña invalida).
 	 */
 	@Test
 	public void RegInval() {
 		// Nos vamos al registro
 		PO_NavView.clickOption(driver, "registro", "id", "registro");
 
-		// Rellenamos el formulario, y nos intentamos registrar (las contraseÃ±as no
+		// Rellenamos el formulario, y nos intentamos registrar (las contraseñas no
 		// coinciden).
 		PO_RegisterView.fillForm(driver, "Prueba2", "Josefo@uniovi.es", "77777", "66666");
 
-		// Comprobamos que aparece el error de contraseÃ±as no coinciden
+		// Comprobamos que aparece el error de contraseñas no coinciden
 		PO_RegisterView.checkKey(driver, "Error.passNoCoincide", PO_Properties.getSPANISH());
 	}
 
 	/**
-	 * 2.1 [InVal] Inicio de sesiÃ³n con datos vÃ¡lidos.
+	 * 2.1 [InVal] Inicio de sesión con datos válidos.
 	 */
 	@Test
 	public void InVal() {
-		// Se intenta ir a la direcciÃ³n para listar usuarios (no dejarÃ¡, puedes debemos
+		// Se intenta ir a la dirección para listar usuarios (no dejará, puedes debemos
 		// loguearnos)
 		// driver.navigate().to( "http://localhost:9090/users/lista-usuarios" );
 
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
@@ -132,12 +117,12 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 2.2 [InInVal] Inicio de sesiÃ³n con datos invÃ¡lidos (usuario no existente en
-	 * la aplicaciÃ³n).
+	 * 2.2 [InInVal] Inicio de sesión con datos inválidos (usuario no existente en
+	 * la aplicación).
 	 */
 	@Test
 	public void InInVal() {
-		// Rellenamos el formulario de login con datos INVÃ�LIDOS
+		// Rellenamos el formulario de login con datos INVÁLIDOS
 		PO_LoginView.fillForm(driver, "mariaB", "123456");
 
 		// Comprobamos que aparece el mensaje de error
@@ -147,11 +132,11 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 3.1 [LisUsrVal] Acceso al listado de usuarios desde un usuario en sesiÃ³n.
+	 * 3.1 [LisUsrVal] Acceso al listado de usuarios desde un usuario en sesión.
 	 */
 	@Test
 	public void LisUsrVal() {
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
@@ -162,13 +147,13 @@ public class RedSocialTests {
 
 	/**
 	 * 3.2 [LisUsrInVal] Intento de acceso con URL desde un usuario no identificado
-	 * al listado de usuarios desde un usuario en sesiÃ³n. Debe producirse un acceso
+	 * al listado de usuarios desde un usuario en sesión. Debe producirse un acceso
 	 * no permitido a vistas privadas.
 	 */
 	@Test
 	public void LisUsrInVal() {
-		// Se intenta ir, sin estar identificado, a la direcciÃ³n de lista de usuarios.
-		// No se permite acceder a dicha direcciÃ³n. Se redirecciona al login de
+		// Se intenta ir, sin estar identificado, a la dirección de lista de usuarios.
+		// No se permite acceder a dicha dirección. Se redirecciona al login de
 		// usuarios.
 		driver.navigate().to("http://localhost:9090/users/lista-usuarios");
 
@@ -177,15 +162,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 4.1 [BusUsrVal] Realizar una bÃºsqueda valida en el listado de usuarios desde
-	 * un usuario en sesiÃ³n
+	 * 4.1 [BusUsrVal] Realizar una búsqueda valida en el listado de usuarios desde
+	 * un usuario en sesión
 	 */
 	@Test
 	public void BusUsrVal() {
 		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
-		// Se despliega el menÃº de usuarios, y se clica en Todos los usuarios
+		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
 		// Buscamos a Pedro
@@ -197,7 +182,7 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 4.2 [BusUsrInVal] Intento de acceso con URL a la bÃºsqueda de usuarios desde
+	 * 4.2 [BusUsrInVal] Intento de acceso con URL a la búsqueda de usuarios desde
 	 * un usuario no identificado. Debe producirse un acceso no permitido a vistas
 	 * privadas.
 	 */
@@ -239,10 +224,10 @@ public class RedSocialTests {
 	 */
 	@Test
 	public void InvInVal() {
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
-		// Se despliega el menÃº de usuarios, y se clica en Todos los usuarios
+		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
 		// Enviamos una invitación de amistad a Marta (Usuario = marta)
@@ -274,7 +259,7 @@ public class RedSocialTests {
 	}
 	
 	/**
-	 * 7.1 [AcepInvVal] Aceptar una invitaciÃ³n recibida.
+	 * 7.1 [AcepInvVal] Aceptar una invitación recibida.
 	 */
 	@Test
 	public void AcepInvVal() 
@@ -348,7 +333,7 @@ public class RedSocialTests {
 		// Inicio sesión con María
 		PO_LoginView.fillForm(driver, "maria", "123456");
 		
-		// Se despliega el menÃº de post, y pulsamos en "Listar mis post"
+		// Se despliega el menú de post, y pulsamos en "Listar mis post"
 		PO_NavView.desplegarPost(driver, "Listar mis post");
 		
 		// Se comprueba que se visualiza correctamente el post de María (solo tiene uno), buscándolo
@@ -362,11 +347,11 @@ public class RedSocialTests {
 	@Test
 	public void LisPubAmiVal() 
 	{
-		// Rellenamos el formulario de login con datos vÃ¡lidos
-		// Inicio sesiÃ³n con marÃ­a
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con maría
 		PO_LoginView.fillForm(driver, "maria", "123456");
 		
-		// Se despliega el menÃº de Usuarios -> Mis amigos
+		// Se despliega el menú de Usuarios -> Mis amigos
 		PO_NavView.desplegarUsuarios(driver, "Mis amigos");
 		
 		// Vamos al perfil de Lucas
@@ -379,39 +364,39 @@ public class RedSocialTests {
 	}
 	
 	/**
-	 * 11.2 [LisPubAmiInVal] Utilizando un acceso vÃ­a URL tratar de listar las publicaciones de un usuario que
-	 * no sea amigo del usuario identificado en sesiÃ³n.
+	 * 11.2 [LisPubAmiInVal] Utilizando un acceso vía URL tratar de listar las publicaciones de un usuario que
+	 * no sea amigo del usuario identificado en sesión.
 	 */
 	@Test
 	public void LisPubAmiInVal() 
 	{
-		// Rellenamos el formulario de login con datos vÃ¡lidos
-		// Inicio sesiÃ³n con marÃ­a
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con maría
 		PO_LoginView.fillForm(driver, "maria", "123456");
 		
-		// Vamos al perfil de Marta (NO ES AMIGA DE MARÃ�A, por lo tanto no se verÃ¡n sus publicaciones).
-		// Marta tiene creada una publicaciÃ³n (tÃ­tulo = Drop tables)
+		// Vamos al perfil de Marta (NO ES AMIGA DE MARÍA, por lo tanto no se verán sus publicaciones).
+		// Marta tiene creada una publicación (título = Drop tables)
 		driver.navigate().to( "http://localhost:9090/users/perfil/marta" );
 
-		// Vemos que no tiene ninguna publicaciÃ³n
+		// Vemos que no tiene ninguna publicación
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Drop tables", PO_View.getTimeout());
 	}
 	
 	/**
-	 * 12.1 [PubFot1Val] Crear una publicaciÃ³n con datos vÃ¡lidos y una foto adjunta. 
+	 * 12.1 [PubFot1Val] Crear una publicación con datos válidos y una foto adjunta. 
 	 */
 	@Test
 	public void PubFot1Val() 
 	{
-		// Rellenamos el formulario de login con datos vÃ¡lidos
-		// Inicio sesiÃ³n con Lucas, que tiene varios amigos
+		// Rellenamos el formulario de login con datos válidos
+		// Inicio sesión con Lucas, que tiene varios amigos
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
-		// Se despliega el menÃº de post, y pulsamos en "Crear post"
+		// Se despliega el menú de post, y pulsamos en "Crear post"
 		PO_NavView.desplegarPost(driver, "Crear post");
 		
-		// Rellenamos la creaciÃ³n del post, y lo creamos
-		PO_PostView.crearPost(driver, "Prueba de nuevo post", "DescripciÃ³n de nuevo post");
+		// Rellenamos la creación del post, y lo creamos
+		PO_PostView.crearPost(driver, "Prueba de nuevo post", "Descripción de nuevo post");
 		
 		// Se comprueba que se ha creado el post anterior
 		SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba de nuevo post", PO_View.getTimeout());
@@ -438,14 +423,14 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 13.1 [AdInVal] Inicio de sesiÃ³n como administrador con datos vÃ¡lidos.
+	 * 13.1 [AdInVal] Inicio de sesión como administrador con datos válidos.
 	 */
 	@Test
 	public void AdInVal() {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
@@ -453,7 +438,7 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 13.2 [AdInInVal] Inicio de sesiÃ³n como administrador con datos invÃ¡lidos
+	 * 13.2 [AdInInVal] Inicio de sesión como administrador con datos inválidos
 	 * (usar los datos de un usuario que no tenga perfil administrador).
 	 */
 	@Test
@@ -461,7 +446,7 @@ public class RedSocialTests {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos INVÃ�LIDOS, usuario existente
+		// Rellenamos el formulario de login con datos INVÁLIDOS, usuario existente
 		// pero sin privilegios
 		PO_LoginView.fillForm(driver, "pedro", "123456");
 
@@ -472,15 +457,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 14.1 [AdLisUsrVal] Desde un usuario identificado en sesiÃ³n como administrador
-	 * listar a todos los usuarios de la aplicaciÃ³n.
+	 * 14.1 [AdLisUsrVal] Desde un usuario identificado en sesión como administrador
+	 * listar a todos los usuarios de la aplicación.
 	 */
 	@Test
 	public void AdLisUsrVal() {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
@@ -488,15 +473,15 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 15.1 [AdBorUsrVal] Desde un usuario identificado en sesiÃ³n como administrador
-	 * eliminar un usuario existente en la aplicaciÃ³n.
+	 * 15.1 [AdBorUsrVal] Desde un usuario identificado en sesión como administrador
+	 * eliminar un usuario existente en la aplicación.
 	 */
 	@Test
 	public void AdBorUsrVal() {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email", PO_View.getTimeout());
@@ -510,14 +495,14 @@ public class RedSocialTests {
 	}
 
 	/**
-	 * 15.2 [AdBorUsrInVal] Intento de acceso vÃ­a URL al borrado de un usuario
-	 * existente en la aplicaciÃ³n. Debe utilizarse un usuario identificado en sesiÃ³n
+	 * 15.2 [AdBorUsrInVal] Intento de acceso vía URL al borrado de un usuario
+	 * existente en la aplicación. Debe utilizarse un usuario identificado en sesión
 	 * pero que no tenga perfil de administrador.
 	 */
 	@Test
 	public void AdBorUsrInVal() {
 
-		// Rellenamos el formulario de login con datos vÃ¡lidos
+		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
 		//Intentamos borrar un usuario sin ser administradores
@@ -530,7 +515,7 @@ public class RedSocialTests {
 
 	
 	/**
-	 * 13.3 [AdInInVal2] Inicio de sesiÃ³n como administrador con datos invÃ¡lidos
+	 * 13.3 [AdInInVal2] Inicio de sesión como administrador con datos inválidos
 	 * (usuario no existente).
 	 */
 	@Test
@@ -538,7 +523,7 @@ public class RedSocialTests {
 		// Navegamos al login de administrador
 		driver.navigate().to("http://localhost:9090/admin/login");
 
-		// Rellenamos el formulario de login con datos INVÃ�LIDOS, usuario no existente
+		// Rellenamos el formulario de login con datos INVÁLIDOS, usuario no existente
 		PO_LoginView.fillForm(driver, "pedro3", "123456");
 
 		// Comprobamos que aparece el mensaje de error
