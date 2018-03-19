@@ -395,15 +395,21 @@ public class RedSocialTests {
 		// Se despliega el menú de post, y pulsamos en "Crear post"
 		PO_NavView.desplegarPost(driver, "Crear post");
 		
-		// Rellenamos la creación del post, y lo creamos
-		PO_PostView.crearPost(driver, "Prueba de nuevo post", "Descripción de nuevo post");
+		/** DESCOMENTAR Y EJECUTAR
+		//Cambiar ruta por la de una imagen propia
+		String rutaImg = "D:\\prueba12.png";
 		
-		// Se comprueba que se ha creado el post anterior
-		SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba de nuevo post", PO_View.getTimeout());
+		// Rellenamos la creación del post, y lo creamos
+		PO_PostView.crearPostConFoto(driver, "Prueba de nuevo post", "Descripción de nuevo post",rutaImg);
+		
+		// Se comprueba que se ha creado el post anterior con una imagen con id img_
+		SeleniumUtils.EsperaCargaPaginaConId(driver, "img_", PO_View.getTimeout());
+		*/
+		
 	}
 	
 	/**
-	 * 12.1 [PubFot2Val] Crear una publicación con datos válidos y sin una foto adjunta.
+	 * 12.2 [PubFot2Val] Crear una publicación con datos válidos y sin una foto adjunta.
 	 */
 	@Test
 	public void PubFot2Val() 
