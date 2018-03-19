@@ -27,11 +27,11 @@ import social.tests.utils.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RedSocialTests {
 	/* PABLO */
-//	 static String PathFirefox =
-//	 "C:\\Users\\PabloD\\Desktop\\SDI\\practicas\\p5\\Firefox46.win\\FirefoxPortable.exe";
+	 static String PathFirefox =
+	 "C:\\Users\\PabloD\\Desktop\\SDI\\practicas\\p5\\Firefox46.win\\FirefoxPortable.exe";
 
 	/* ANTONIO */
-	static String PathFirefox = "D:\\UNIOVI\\Tercero\\Segundo Semestre\\SDI\\Practicas\\recursos\\Firefox46.win\\FirefoxPortable.exe";
+//	static String PathFirefox = "D:\\UNIOVI\\Tercero\\Segundo Semestre\\SDI\\Practicas\\recursos\\Firefox46.win\\FirefoxPortable.exe";
 
 	static WebDriver driver = getDriver(PathFirefox);
 	static String URL = "http://localhost:9090";
@@ -103,16 +103,10 @@ public class RedSocialTests {
 	 */
 	@Test
 	public void InVal() {
-		// Se intenta ir a la dirección para listar usuarios (no dejará, puedes debemos
-		// loguearnos)
-		// driver.navigate().to( "http://localhost:9090/users/lista-usuarios" );
-
 		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "maria", "123456");
 
-		// Comprobamos que aparece el mensaje "Lista de usuarios"
-		// PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios",
-		// PO_Properties.getSPANISH() );
+		// Comprobamos que aparece el mensaje "Panel"
 		PO_RegisterView.checkKey(driver, "Panel.panel", PO_Properties.getSPANISH());
 	}
 
@@ -173,10 +167,10 @@ public class RedSocialTests {
 		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
-		// Buscamos a Pedro
+		// Buscamos a Edward
 		PO_ListUsers.buscarUsuario(driver, "Edward");
 
-		// Se comprueba (mediante el Email) que solo hay un usuario encontrado (Pedro)
+		// Se comprueba (mediante el Email) que solo hay un usuario encontrado (Edward)
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email", PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 1);
 	}
@@ -234,8 +228,7 @@ public class RedSocialTests {
 		PO_ListUsers.enviarAceptarPeticion(driver, "marta");
 
 		// Se comprueba que se ha enviado la petición de amistad a Marta (aparece el
-		// mensaje "Petición
-		// de amistad enviada", con ID=enviada_marta
+		// mensaje "Petición de amistad enviada", con ID=enviada_marta
 		SeleniumUtils.EsperaCargaPaginaConId(driver, "enviada_marta", PO_View.getTimeout());
 	}
 
