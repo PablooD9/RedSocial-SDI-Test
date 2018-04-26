@@ -23,11 +23,11 @@ public class PO_NavView extends PO_View
 	 *            "id" or "class" or "text" or "@attribute" or "free". Si el valor
 	 *            de criterio es free es una expresion xpath completa.
 	 * @param textoDestino:
-	 *            texto correspondiente a la búsqueda (comprueba si se ha cargado la página con éxito)
+	 *            texto correspondiente a la bï¿½squeda (comprueba si se ha cargado la pï¿½gina con ï¿½xito)
 	 */
 	public static void clickOption(WebDriver driver, String textOption, String criterio, String textoDestino) 
 	{
-		// CLickamos en la opción que queremos, y esperamos la carga
+		// CLickamos en la opciï¿½n que queremos, y esperamos la carga
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", textOption,
 																						getTimeout());
 		// Tiene que haber un solo elemento.
@@ -67,15 +67,15 @@ public class PO_NavView extends PO_View
 	
 	public static void desplegarPost(WebDriver driver, String textoOpcion) 
 	{
-		// clickamos la opción de Mis post
+		// clickamos la opciï¿½n de Mis post
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "posts", getTimeout());
 		elementos.get(0).click();
 		
-		// Esperamos a que aparezca el menú
+		// Esperamos a que aparezca el menï¿½
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "desplieguePosts", getTimeout());
 		// SeleniumUtils.esperarSegundos(driver, 2);
 		
-		// CLickamos la opción textoOpcion
+		// CLickamos la opciï¿½n textoOpcion
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", textoOpcion, getTimeout());
 		elementos.get(0).click();
 	}
@@ -83,15 +83,15 @@ public class PO_NavView extends PO_View
 
 	public static void desplegarUsuarios(WebDriver driver, String textoOpcion) 
 	{
-		// clickamos la opción de Usuarios
+		// clickamos la opciÃ³n de Usuarios
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "usuarios", getTimeout());
 		elementos.get(0).click();
 		
-		// Esperamos a que aparezca el menú
+		// Esperamos a que aparezca el menÃº
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "despliegueUsuarios", getTimeout());
 		// SeleniumUtils.esperarSegundos(driver, 2);
 		
-		// CLickamos la opción textoOpcion
+		// CLickamos la opciÃ³n de 'textoOpcion'
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "text", textoOpcion, getTimeout());
 		elementos.get(0).click();
 	}

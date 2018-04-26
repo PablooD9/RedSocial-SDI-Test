@@ -34,7 +34,7 @@ public class RedSocialTests {
 //	static String PathFirefox = "D:\\UNIOVI\\Tercero\\Segundo Semestre\\SDI\\Practicas\\recursos\\Firefox46.win\\FirefoxPortable.exe";
 
 	static WebDriver driver = getDriver(PathFirefox);
-	static String URL = "http://localhost:9090";
+	static String URL = "http://localhost:8081";
 
 	public static WebDriver getDriver(String PathFirefox) {
 		System.setProperty("webdriver.firefox.bin", PathFirefox);
@@ -75,10 +75,10 @@ public class RedSocialTests {
 		PO_NavView.clickOption(driver, "registro", "id", "registro");
 
 		// Rellenamos el formulario, y nos registramos.
-		PO_RegisterView.fillForm(driver, "Prueba", "Josefo@uniovi.es", "77777", "77777");
+		PO_RegisterView.fillForm(driver, "Mongo", "mongo@db.es", "123456", "123456");
 
-		// Comprobamos que entramos en el panel
-		PO_View.checkElement(driver, "text", "Panel");
+		// Comprobamos que ya podemos iniciar sesión con nuestro nuevo usuario
+		PO_View.checkElement(driver, "text", " Login");
 	}
 
 	/**
@@ -92,10 +92,10 @@ public class RedSocialTests {
 
 		// Rellenamos el formulario, y nos intentamos registrar (las contraseñas no
 		// coinciden).
-		PO_RegisterView.fillForm(driver, "Prueba2", "Josefo@uniovi.es", "77777", "66666");
+		PO_RegisterView.fillForm(driver, "Prueba2", "Josefo2@uniovi.es", "77777", "66666");
 
 		// Comprobamos que aparece el error de contraseñas no coinciden
-		PO_RegisterView.checkKey(driver, "Error.passNoCoincide", PO_Properties.getSPANISH());
+		PO_RegisterView.checkElement(driver, "text", "Las contraseñas no coinciden");
 	}
 
 	/**
@@ -104,10 +104,10 @@ public class RedSocialTests {
 	@Test
 	public void InVal() {
 		// Rellenamos el formulario de login con datos válidos
-		PO_LoginView.fillForm(driver, "maria", "123456");
+		PO_LoginView.fillForm(driver, "Pablo", "123456");
 
-		// Comprobamos que aparece el mensaje "Panel"
-		PO_RegisterView.checkKey(driver, "Panel.panel", PO_Properties.getSPANISH());
+		// Comprobamos que aparece el mensaje "Perfil"
+		PO_RegisterView.checkKey(driver, "Perfil");
 	}
 
 	/**
@@ -117,12 +117,11 @@ public class RedSocialTests {
 	@Test
 	public void InInVal() {
 		// Rellenamos el formulario de login con datos INVÁLIDOS
-		PO_LoginView.fillForm(driver, "mariaB", "123456");
+		PO_LoginView.fillForm(driver, "mongoDB", "123456");
 
 		// Comprobamos que aparece el mensaje de error
-		// "Username o password incorrectos o el usuario no tiene privilegios
-		// suficientes"
-		PO_RegisterView.checkKey(driver, "Error.falloLogin", PO_Properties.getSPANISH());
+		// "Usuario o password incorrecto"
+		PO_RegisterView.checkKey(driver, "Usuario o password incorrecto");
 	}
 
 	/**
@@ -131,12 +130,13 @@ public class RedSocialTests {
 	@Test
 	public void LisUsrVal() {
 		// Rellenamos el formulario de login con datos válidos
-		PO_LoginView.fillForm(driver, "maria", "123456");
+		PO_LoginView.fillForm(driver, "Pablo", "123456");
 
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
-		// Comprobamos que aparece el mensaje "Lista de usuarios"
-		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios", PO_Properties.getSPANISH());
+		// Comprobamos que aparece el mensaje "Lista de usuarios" y "Buscar usuarios"
+		PO_RegisterView.checkKey(driver, "Lista de usuarios");
+		PO_RegisterView.checkKey(driver, "Buscar usuarios");
 	}
 
 	/**
@@ -149,10 +149,10 @@ public class RedSocialTests {
 		// Se intenta ir, sin estar identificado, a la dirección de lista de usuarios.
 		// No se permite acceder a dicha dirección. Se redirecciona al login de
 		// usuarios.
-		driver.navigate().to("http://localhost:9090/users/lista-usuarios");
+		driver.navigate().to("http://localhost:8081/users/lista-usuarios");
 
 		// Comprobamos que aparece el mensaje "Login"
-		PO_RegisterView.checkKey(driver, "Login.titulo", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, " Login");
 	}
 
 	/**
@@ -162,15 +162,15 @@ public class RedSocialTests {
 	@Test
 	public void BusUsrVal() {
 		// Rellenamos el formulario de login con datos válidos
-		PO_LoginView.fillForm(driver, "maria", "123456");
+		PO_LoginView.fillForm(driver, "Pablo", "123456");
 
 		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
-		// Buscamos a Edward
-		PO_ListUsers.buscarUsuario(driver, "Edward");
+		// Buscamos a Antonio
+		PO_ListUsers.buscarUsuario(driver, "Antonio");
 
-		// Se comprueba (mediante el Email) que solo hay un usuario encontrado (Edward)
+		// Se comprueba (mediante el Email) que solo hay un usuario encontrado (Antonio)
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email", PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 1);
 	}
@@ -183,13 +183,13 @@ public class RedSocialTests {
 	@Test
 	public void BusUsrInVal() {
 		// Se intenta ir, sin estar identificado, a la dirección de lista de usuarios, y
-		// buscar a Pedro.
+		// buscar a Antonio.
 		// No se permite acceder a dicha dirección. Se redirecciona al login de
 		// usuarios.
-		driver.navigate().to("http://localhost:9090/users/lista-usuarios?searchText=Pedro");
+		driver.navigate().to("http://localhost:8081/users/lista-usuarios?searchText=Antonio");
 
 		// Comprobamos que aparece el mensaje "Login"
-		PO_RegisterView.checkKey(driver, "Login.titulo", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, " Login");
 	}
 
 	/**
@@ -198,16 +198,20 @@ public class RedSocialTests {
 	@Test
 	public void InvVal() {
 		// Rellenamos el formulario de login con datos válidos
-		PO_LoginView.fillForm(driver, "maria", "123456");
+		PO_LoginView.fillForm(driver, "Mongo", "123456");
 
 		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 		
-		// Se puede enviar petición de amistad a Pelayo
-		SeleniumUtils.EsperaCargaPaginaConId(driver, "pelayo", PO_View.getTimeout());
+		// Se puede enviar petición de amistad a Pablo (uo251017@uniovi.es)
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "uo251017@uniovi.es", PO_View.getTimeout());
 
-		// Enviamos una invitación de amistad a Pelayo (Usuario = pelayo)
-		PO_ListUsers.enviarAceptarPeticion(driver, "pelayo");
+		// Enviamos una invitación de amistad a Pablo (Usuario = Pablo)
+		PO_ListUsers.enviarAceptarPeticion(driver, "Pablo");
+		
+		// Comprobamos que aparece el mensaje "Petición de amistad enviada satisfactoriamente"
+		PO_RegisterView.checkKey(driver, "Petición de amistad enviada satisfactoriamente");
+		
 	}
 
 	/**
@@ -219,17 +223,14 @@ public class RedSocialTests {
 	@Test
 	public void InvInVal() {
 		// Rellenamos el formulario de login con datos válidos
-		PO_LoginView.fillForm(driver, "edward", "123456");
+		PO_LoginView.fillForm(driver, "Prueba", "123456");
 
 		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
 
-		// Enviamos una invitación de amistad a Marta (Usuario = marta)
-		PO_ListUsers.enviarAceptarPeticion(driver, "marta");
-
-		// Se comprueba que se ha enviado la petición de amistad a Marta (aparece el
-		// mensaje "Petición de amistad enviada", con ID=enviada_marta
-		SeleniumUtils.EsperaCargaPaginaConId(driver, "enviada_marta", PO_View.getTimeout());
+		// Se comprueba que se ha enviado la petición de amistad a Pablo (aparece el
+		// mensaje "Petición de amistad enviada", con ID=enviada_Pablo
+		SeleniumUtils.EsperaCargaPaginaConId(driver, "enviada_Pablo", PO_View.getTimeout());
 	}
 
 	/**
@@ -240,12 +241,12 @@ public class RedSocialTests {
 	public void LisInvVal() {
 		// Rellenamos el formulario de login con datos válidos
 		// Inicio sesión con Marta, porque tiene 2 peticiones de amistad pendientes
-		PO_LoginView.fillForm(driver, "marta", "123456");
+		PO_LoginView.fillForm(driver, "Pablo", "123456");
 
-		// Se despliega el menú de usuarios, y se clica en Ver peticiones de amistad
-		PO_NavView.desplegarUsuarios(driver, "Ver peticiones de amistad");
+		// Se despliega el menú de usuarios, y se clica en Peticiones de amistad
+		PO_NavView.desplegarUsuarios(driver, "Peticiones de amistad");
 
-		// Se comprueba que Marta tiene 2 peticiones de amistad
+		// Se comprueba que Pablo tiene 2 peticiones de amistad
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 2);
@@ -258,24 +259,29 @@ public class RedSocialTests {
 	public void AcepInvVal() 
 	{
 		// Rellenamos el formulario de login con datos válidos
-		// Inicio sesión con Lucas, porque tiene 3 peticiones de amistad pendientes
-		PO_LoginView.fillForm(driver, "lucas", "123456");
+		// Inicio sesión con Lucas, porque tiene 2 peticiones de amistad pendientes
+		PO_LoginView.fillForm(driver, "Pablo", "123456");
 		
 		// Se despliega el menú de usuarios, y se clica en Ver peticiones de amistad
-		PO_NavView.desplegarUsuarios(driver, "Ver peticiones de amistad");
+		PO_NavView.desplegarUsuarios(driver, "Peticiones de amistad");
 		
-		// Se comprueba que Lucas tiene 3 peticiones de amistad
+		// Se comprueba que Lucas tiene 2 peticiones de amistad
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
 				PO_View.getTimeout());
-		Assert.assertTrue(usuarios.size() == 3);			
+		Assert.assertTrue(usuarios.size() == 2);			
 		
-		// Se acepta la petición del usuario "edward"
-		PO_ListUsers.enviarAceptarPeticion(driver, "edward");
+		// Se acepta la petición del usuario "Mongo"
+		PO_ListUsers.enviarAceptarPeticion(driver, "Mongo");
+		
+		// Se comprueba que salta un mensaje al aceptar la petición
+		// El mensaje es "¡Petición aceptada con éxito!"
+		PO_RegisterView.checkKey(driver, "¡Petición aceptada con éxito!");
 		
 		// Se comprueba que ahora que se ha aceptado una petición, hay dos pendientes
 		usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
 				PO_View.getTimeout());
-		Assert.assertTrue(usuarios.size() == 2);
+		Assert.assertTrue(usuarios.size() == 1);
+		
 	}
 
 	/**
@@ -285,16 +291,16 @@ public class RedSocialTests {
 	public void ListAmiVal() 
 	{
 		// Rellenamos el formulario de login con datos válidos
-		// Inicio sesión con Lucas, que tiene varios amigos
-		PO_LoginView.fillForm(driver, "lucas", "123456");
+		// Inicio sesión con Pablo, que tiene varios amigos
+		PO_LoginView.fillForm(driver, "Pablo", "123456");
 		
 		// Se despliega el menú de usuarios, y se clica en Mis amigos
 		PO_NavView.desplegarUsuarios(driver, "Mis amigos");
 		
-		// Se comprueba que Lucas tiene 2 amigos
+		// Se comprueba que Pablo tiene 4 amigos
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Email",
 				PO_View.getTimeout());
-		Assert.assertTrue(usuarios.size() == 2);
+		Assert.assertTrue(usuarios.size() == 4);
 	}
 	
 	/**
@@ -369,7 +375,7 @@ public class RedSocialTests {
 		
 		// Vamos al perfil de Marta (NO ES AMIGA DE MARÍA, por lo tanto no se verán sus publicaciones).
 		// Marta tiene creada una publicación (título = Drop tables)
-		driver.navigate().to( "http://localhost:9090/users/perfil/marta" );
+		driver.navigate().to( "http://localhost:8081/users/perfil/marta" );
 
 		// Vemos que no tiene ninguna publicación
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Drop tables", PO_View.getTimeout());
@@ -427,13 +433,13 @@ public class RedSocialTests {
 	@Test
 	public void AdInVal() {
 		// Navegamos al login de administrador
-		driver.navigate().to("http://localhost:9090/admin/login");
+		driver.navigate().to("http://localhost:8081/admin/login");
 
 		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
-		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios");
 	}
 
 	/**
@@ -443,7 +449,7 @@ public class RedSocialTests {
 	@Test
 	public void AdInInVal() {
 		// Navegamos al login de administrador
-		driver.navigate().to("http://localhost:9090/admin/login");
+		driver.navigate().to("http://localhost:8081/admin/login");
 
 		// Rellenamos el formulario de login con datos INVÁLIDOS, usuario existente
 		// pero sin privilegios
@@ -452,7 +458,7 @@ public class RedSocialTests {
 		// Comprobamos que aparece el mensaje de error
 		// "Username o password incorrectos o el usuario no tiene privilegios
 		// suficientes"
-		PO_RegisterView.checkKey(driver, "Error.falloLogin", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Error.falloLogin");
 	}
 
 	/**
@@ -462,13 +468,13 @@ public class RedSocialTests {
 	@Test
 	public void AdLisUsrVal() {
 		// Navegamos al login de administrador
-		driver.navigate().to("http://localhost:9090/admin/login");
+		driver.navigate().to("http://localhost:8081/admin/login");
 
 		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
 
 		// Comprobamos que aparece el mensaje "Lista de usuarios"
-		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Usuarios.lista.listaUsuarios");
 	}
 
 	/**
@@ -478,7 +484,7 @@ public class RedSocialTests {
 	@Test
 	public void AdBorUsrVal() {
 		// Navegamos al login de administrador
-		driver.navigate().to("http://localhost:9090/admin/login");
+		driver.navigate().to("http://localhost:8081/admin/login");
 
 		// Rellenamos el formulario de login con datos válidos
 		PO_LoginView.fillForm(driver, "edward", "123456");
@@ -505,10 +511,10 @@ public class RedSocialTests {
 		PO_LoginView.fillForm(driver, "lucas", "123456");
 		
 		//Intentamos borrar un usuario sin ser administradores
-		driver.navigate().to("http://localhost:9090/admin/eliminarUsuario/1");
+		driver.navigate().to("http://localhost:8081/admin/eliminarUsuario/1");
 		
 		// Comprobamos que aparece el mensaje de error
-		PO_RegisterView.checkKey(driver, "Error.priv", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Error.priv");
 		
 	}
 
@@ -520,7 +526,7 @@ public class RedSocialTests {
 	@Test
 	public void AdInInVal2() {
 		// Navegamos al login de administrador
-		driver.navigate().to("http://localhost:9090/admin/login");
+		driver.navigate().to("http://localhost:8081/admin/login");
 
 		// Rellenamos el formulario de login con datos INVÁLIDOS, usuario no existente
 		PO_LoginView.fillForm(driver, "pedro3", "123456");
@@ -528,6 +534,6 @@ public class RedSocialTests {
 		// Comprobamos que aparece el mensaje de error
 		// "Username o password incorrectos o el usuario no tiene privilegios
 		// suficientes"
-		PO_RegisterView.checkKey(driver, "Error.falloLogin", PO_Properties.getSPANISH());
+		PO_RegisterView.checkKey(driver, "Error.falloLogin");
 	}
 }
