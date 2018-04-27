@@ -14,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import social.tests.pageobjects.PO_ChatView;
 import social.tests.pageobjects.PO_ListUsers;
 import social.tests.pageobjects.PO_LoginView;
 import social.tests.pageobjects.PO_NavView;
@@ -223,7 +224,7 @@ public class RedSocialTests {
 	@Test
 	public void InvInVal() {
 		// Rellenamos el formulario de login con datos válidos
-		PO_LoginView.fillForm(driver, "Prueba", "123456");
+		PO_LoginView.fillForm(driver, "Mongo", "123456");
 
 		// Se despliega el menú de usuarios, y se clica en Todos los usuarios
 		PO_NavView.desplegarUsuarios(driver, "Todos los usuarios");
@@ -265,7 +266,7 @@ public class RedSocialTests {
 		// Se despliega el menú de usuarios, y se clica en Ver peticiones de amistad
 		PO_NavView.desplegarUsuarios(driver, "Peticiones de amistad");
 		
-		// Se comprueba que Lucas tiene 2 peticiones de amistad
+		// Se comprueba que Pablo tiene 2 peticiones de amistad
 		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "text", "Aceptar petición",
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 2);			
@@ -302,6 +303,94 @@ public class RedSocialTests {
 				PO_View.getTimeout());
 		Assert.assertTrue(usuarios.size() == 4);
 	}
+	
+	/**
+	 * C1.1[[CInVal] Inicio de sesión con datos válidos.
+	 */
+	@Test
+	public void CInVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "Iniciar sesión", PO_View.getTimeout());
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Comprobamos que entramos al chat (aparece un mensaje)
+		PO_RegisterView.checkKey(driver, "Autores: Antonio Paya Gonzalez y Pablo Diaz Rancaño");
+	}
+	
+	/**
+	 * C1.2 [CInInVal] Inicio de sesión con datos inválidos (usuario no existente en la aplicación).
+	 */
+	@Test
+	public void CInInVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Ana Botella", "123456");
+		
+		// Comprobamos que seguimos en la ventana de login
+		PO_RegisterView.checkKey(driver, "Iniciar sesión");
+	}
+	
+	/**
+	 *  C.2.1 [CListAmiVal] Acceder a la lista de amigos de un usuario, que al menos 
+	 *  tenga tres amigos.
+	 */
+	@Test
+	public void CListAmiVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		//SeleniumUtils.esperarSegundos(driver, 2);
+		
+		// Se comprueba que Pablo tiene 4 amigos (que aparecen a la izquierda en el chat
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 4);
+	}
+	
+	/**
+	 * C.2.2 [CListAmiFil] Acceder a la lista de amigos de un usuario, y realizar un 
+	 * filtrado para encontrar a un amigo concreto, el nombre a buscar debe 
+	 * coincidir con el de un amigo.
+	 */
+	@Test
+	public void CListAmiFil() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		//SeleniumUtils.esperarSegundos(driver, 2);
+		
+		// Se comprueba que Pablo tiene 4 amigos (que aparecen a la izquierda en el chat
+		List<WebElement> usuarios = SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 4);
+		
+		// Buscamos a Antonio
+		PO_ChatView.buscarUsuario(driver, "Antonio");
+		
+		// Comprobamos que solo aparece un amigo
+		usuarios = SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		Assert.assertTrue(usuarios.size() == 1);
+	}
+	
+	
+	
+	
 	
 	/**
 	 * 9.1 [PubVal] Crear una publicación con datos válidos. 
