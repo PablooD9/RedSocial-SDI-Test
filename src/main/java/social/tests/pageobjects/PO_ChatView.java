@@ -32,4 +32,18 @@ public class PO_ChatView
 		campoBusqueda.sendKeys( usuario );
 	}
 	
+	static public void abrirChat(WebDriver driver, String usuario){
+		WebElement abrirChatAmigo = driver.findElement(By.id("chat_" + usuario));
+		abrirChatAmigo.click();
+	}
+	
+	static public void escribirMensaje(WebDriver driver, String mensaje){
+		WebElement campo_mensaje = driver.findElement(By.id("mensajeAenviar"));
+		campo_mensaje.click();
+		campo_mensaje.clear();
+		campo_mensaje.sendKeys( mensaje );
+		
+		By boton = By.id("btEnviar");
+		driver.findElement(boton).click();
+	}
 }

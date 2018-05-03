@@ -9,7 +9,7 @@ import social.tests.utils.SeleniumUtils;
 
 public class PO_View {
 	
-	protected static int timeout = 6;
+	protected static int timeout = 7;
 
 	public static int getTimeout() {
 		return timeout;

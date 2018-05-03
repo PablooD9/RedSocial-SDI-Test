@@ -19,7 +19,6 @@ import social.tests.pageobjects.PO_ListUsers;
 import social.tests.pageobjects.PO_LoginView;
 import social.tests.pageobjects.PO_NavView;
 import social.tests.pageobjects.PO_PostView;
-import social.tests.pageobjects.PO_Properties;
 import social.tests.pageobjects.PO_RegisterView;
 import social.tests.pageobjects.PO_View;
 import social.tests.utils.SeleniumUtils;
@@ -388,7 +387,236 @@ public class RedSocialTests {
 		Assert.assertTrue(usuarios.size() == 1);
 	}
 	
+	/**
+	 *  C3.1 [CListMenVal] Acceder a la lista de mensajes de un amigo “chat”, la lista debe contener al menos tres mensajes.
+	 */
+	@Test
+	public void CListMenVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Esperamos a que se carguen los amigos
+		SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		
+		// Damos clic al amigo "Antonio" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Antonio");
+		
+		// Comprobamos que tenemos más de 3 mensajes con Antonio
+		List<WebElement> mensajes = SeleniumUtils.EsperaCargaPagina(driver, "class", "message-data-name",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 3);
+	}
 	
+	/**
+	 *  C4.1 [CCrearMenVal] Acceder a la lista de mensajes de un amigo “chat” y crear un nuevo mensaje, 
+	 *  validar que el mensaje aparece en la lista de mensajes.
+	 */
+	@Test
+	public void CCrearMenVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Esperamos a que se carguen los amigos
+		SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		
+		// Damos clic al amigo "Antonio" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Antonio");
+		
+		// Escribimos un nuevo mensaje para "Antonio"
+		PO_ChatView.escribirMensaje(driver, "Prueba para el test C4.1 de Selenium");
+		
+		// Comprobamos que aparece el mensaje enviado
+		List<WebElement> mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba para el test C4.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+	}
+	
+	/**
+	 *  C5.1 [CMenLeidoVal] Identificarse en la aplicación y enviar un mensaje a un amigo, validar que 
+	 *  el mensaje enviado aparece en el chat. Identificarse después con el usuario que recibido el mensaje y 
+	 *  validar que tiene un mensaje sin leer, entrar en el chat y comprobar que el mensaje pasa a tener el estado leído.
+	 */
+	@Test
+	public void CMenLeidoVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Esperamos a que se carguen los amigos
+		SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		
+		// Damos clic al amigo "Antonio" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Antonio");
+		
+		// Escribimos un nuevo mensaje para "Antonio"
+		PO_ChatView.escribirMensaje(driver, "Prueba para el test C5.1 de Selenium");
+		
+		// Comprobamos que aparece el mensaje enviado
+		List<WebElement> mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba para el test C5.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+		
+		// Volvemos a la ventana de Login para entrar con el usuario Antonio
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Antonio", "123456");
+		
+		// Comprobamos que tenemos un mensaje sin leer
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "1 mensajes sin leer",
+							PO_View.getTimeout());
+		
+		// Damos clic al amigo "Pablo" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Pablo");
+		
+		// Comprobamos que ya no hay mensajes sin leer
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "1 mensajes sin leer",
+							PO_View.getTimeout());
+	}
+	
+	/**
+	 *  C6.1 [CListaMenNoLeidoVal] Identificarse en la aplicación y enviar tres mensajes a un amigo, validar que 
+	 *  los mensajes enviados aparecen en el chat. 
+	 *  Identificarse después con el usuario que recibido el mensaje y validar que el número de mensajes sin leer aparece en la propia lista de amigos.
+	 */
+	@Test
+	public void CListaMenNoLeidoVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Esperamos a que se carguen los amigos
+		SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		
+		// Damos clic al amigo "Antonio" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Antonio");
+		
+		// Escribimos 3 MENSAJES para ANTONIO:
+		// =======================================
+		// Escribimos un nuevo mensaje para "Antonio"
+		PO_ChatView.escribirMensaje(driver, "Prueba 1 para el test C6.1 de Selenium");
+		
+		// Comprobamos que aparece el mensaje enviado
+		List<WebElement> mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba 1 para el test C6.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+		
+		// Escribimos un nuevo mensaje para "Antonio"
+		PO_ChatView.escribirMensaje(driver, "Prueba 2 para el test C6.1 de Selenium");
+		
+		// Comprobamos que aparece el mensaje enviado
+		mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba 2 para el test C6.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+		
+		// Escribimos un nuevo mensaje para "Antonio"
+		PO_ChatView.escribirMensaje(driver, "Prueba 3 para el test C6.1 de Selenium");
+		
+		// Comprobamos que aparece el mensaje enviado
+		mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba 3 para el test C6.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+		// =======================================
+		
+		// Volvemos a la ventana de Login para entrar con el usuario Antonio
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Antonio", "123456");
+		
+		// Comprobamos que tenemos tres mensajes sin leer
+		SeleniumUtils.EsperaCargaPagina(driver, "text", "3 mensajes sin leer",
+							PO_View.getTimeout());
+	}
+	
+	/**
+	 *  C7.1 [COrdenMenVal] Identificarse con un usuario A que al menos tenga 3 amigos, ir al 
+	 *  chat del ultimo amigo de la lista y enviarle un mensaje, volver a la lista de amigos y comprobar 
+	 *  que el usuario al que se le ha enviado el mensaje esta en primera posición. 
+	 *  Identificarse con el usuario B y enviarle un mensaje al usuario A. 
+	 *  Volver a identificarse con el usuario A y ver que el usuario que acaba de mandarle el mensaje es el primero en su lista de amigos.
+	 */
+	@Test
+	public void COrdenMenVal() 
+	{		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Esperamos a que se carguen los amigos
+		SeleniumUtils.EsperaCargaPagina(driver, "class", "name_amigo",
+				PO_View.getTimeout());
+		
+		// Damos clic al amigo "Antonio" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Antonio");
+		
+		// Escribimos un nuevo mensaje para "Antonio"
+		PO_ChatView.escribirMensaje(driver, "Prueba 1 para el test C7.1 de Selenium");
+		
+		// Comprobamos que aparece el mensaje enviado
+		List<WebElement> mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba 1 para el test C7.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+		
+		// Clicamos en el primer elemento de la lista de usuarios
+		List<WebElement> listaUsuarios = SeleniumUtils.EsperaCargaPagina(driver, "class", "amigo",
+				PO_View.getTimeout());
+		listaUsuarios.get(0).click();
+		
+		// Comprobamos que estamos en el chat con Antonio
+		mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba 1 para el test C7.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+		
+		// Volvemos a la ventana de Login para entrar con el usuario Antonio
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Antonio", "123456");
+		
+		// Damos clic al amigo "Antonio" para abrir el chat con él
+		PO_ChatView.abrirChat(driver, "Pablo");
+		
+		// Escribimos un nuevo mensaje para "Pablo"
+		PO_ChatView.escribirMensaje(driver, "Prueba 2 para el test C7.1 de Selenium");
+		
+		// Vamos a la URL para el chat
+		driver.navigate().to("http://localhost:8081/chat-redsocial.html");
+		
+		// Rellenamos el formulario de login con datos válidos
+		PO_ChatView.fillForm(driver, "Pablo", "123456");
+		
+		// Clicamos en el primer elemento de la lista de usuarios
+		listaUsuarios = SeleniumUtils.EsperaCargaPagina(driver, "class", "amigo",
+				PO_View.getTimeout());
+		listaUsuarios.get(0).click();
+		
+		// Comprobamos que estamos en el chat con Antonio
+		mensajes = SeleniumUtils.EsperaCargaPagina(driver, "text", "Prueba 1 para el test C7.1 de Selenium",
+				PO_View.getTimeout());
+		Assert.assertTrue(mensajes.size() > 0);
+				
+	}
 	
 	
 	
