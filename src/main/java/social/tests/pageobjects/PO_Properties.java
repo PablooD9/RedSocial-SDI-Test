@@ -1,8 +1,6 @@
 package social.tests.pageobjects;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class PO_Properties {
 	
